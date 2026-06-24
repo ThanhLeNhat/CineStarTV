@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -126,6 +128,12 @@ public class PaymentDTO implements Serializable {
 
     public boolean isSuccess() {
         return "SUCCESS".equals(status);
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) createdAt = new java.util.Date();
     }
 
     @Override

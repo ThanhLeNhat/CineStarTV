@@ -78,10 +78,7 @@ public class BookingDAO implements IDAO<BookingDTO, Integer> {
      * Tạo mã booking tự động: CST-000001, CST-000002, ...
      */
     public String generateBookingCode() {
-        EntityManager em = JpaUtil.getEntityManager();
-        try {
-            long count = em.createQuery("SELECT COUNT(b) FROM BookingDTO b", Long.class).getSingleResult();
-            return String.format("CST-%06d", count + 1);
-        } finally { em.close(); }
+        // Dùng timestamp để tránh race condition khi nhiều user đặt vé cùng lúc
+        return "CST-" + System.currentTimeMillis();
     }
 }

@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -169,6 +171,18 @@ public class BookingDTO implements Serializable {
 
     public boolean isPending() {
         return "PENDING".equals(status);
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) createdAt = new java.util.Date();
+        if (updatedAt == null) updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new java.util.Date();
     }
 
     @Override

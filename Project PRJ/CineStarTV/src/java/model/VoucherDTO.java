@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -181,6 +182,12 @@ public class VoucherDTO implements Serializable {
             discount = discountAmount;
         }
         return Math.min(discount, orderAmount);
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) createdAt = new java.util.Date();
     }
 
     @Override

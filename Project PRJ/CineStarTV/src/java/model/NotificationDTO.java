@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -125,6 +127,12 @@ public class NotificationDTO implements Serializable {
             default:
                 return "bi-info-circle";
         }
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) createdAt = new java.util.Date();
     }
 
     @Override

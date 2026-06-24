@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -239,6 +241,18 @@ public class MovieDTO implements Serializable {
 
     public boolean isComingSoon() {
         return "COMING_SOON".equals(status);
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) createdAt = new java.util.Date();
+        if (updatedAt == null) updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new java.util.Date();
     }
 
     @Override
