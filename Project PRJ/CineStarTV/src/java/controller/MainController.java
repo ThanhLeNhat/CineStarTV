@@ -33,13 +33,13 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
 
             if ("home".equals(action)) {
-                url = "HomeController";
+                url = "index.jsp";
             } else if ("login".equals(action)) {
-                url = "auth/login.jsp";
+                url = "login.jsp";
             } else if ("doLogin".equals(action)) {
                 url = "LoginController";
             } else if ("register".equals(action)) {
-                url = "auth/register.jsp";
+                url = "register.jsp";
             } else if ("doRegister".equals(action)) {
                 url = "RegisterController";
             } else if ("logout".equals(action)) {
