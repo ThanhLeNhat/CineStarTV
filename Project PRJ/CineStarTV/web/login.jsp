@@ -273,6 +273,8 @@
         </c:if>
 
         <form action="${pageContext.request.contextPath}/LoginController" method="POST" id="loginForm" novalidate>
+            <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
 
             <!-- Email -->
             <div class="mb-3">

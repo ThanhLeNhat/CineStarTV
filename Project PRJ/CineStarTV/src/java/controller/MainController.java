@@ -28,12 +28,12 @@ public class MainController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "index.jsp";
+        String url = "HomeController";
         try {
             String action = request.getParameter("action");
 
-            if ("home".equals(action)) {
-                url = "index.jsp";
+            if ("home".equals(action) || action == null) {
+                url = "HomeController";
             } else if ("login".equals(action)) {
                 url = "login.jsp";
             } else if ("doLogin".equals(action)) {

@@ -6,12 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% request.setAttribute("pageTitle", "CineStarTV - Trang chủ"); %>
-
-<%-- Nếu chưa có data → redirect qua MainController --%>
-<c:if test="${nowShowing == null}">
-    <c:redirect url="MainController?action=home"/>
-</c:if>
 <%@ include file="header.jsp" %>
+
+<%-- Nếu chưa có data → redirect qua HomeController --%>
+<c:if test="${nowShowing == null}">
+    <c:redirect url="HomeController"/>
+</c:if>
 <%@ include file="navbar.jsp" %>
 
 <!-- ========== HERO BANNER ========== -->

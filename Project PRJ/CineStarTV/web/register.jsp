@@ -237,6 +237,8 @@
 
         <form action="${pageContext.request.contextPath}/RegisterController"
               method="POST" id="registerForm" novalidate>
+            <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
 
             <!-- Họ tên -->
             <div class="mb-3">

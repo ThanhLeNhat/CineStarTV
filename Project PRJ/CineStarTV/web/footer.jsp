@@ -7,7 +7,7 @@
 <%-- 
     footer.jsp — Chân trang chung
     Chứa: thông tin liên hệ, links, copyright, JS scripts
-    Dùng: <%@ include file="/common/footer.jsp" %>
+    Dùng: <%@ include file="footer.jsp" %>
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <footer class="footer">
@@ -64,7 +64,13 @@
     </div>
 </footer>
 
-<!-- JavaScript -->
+<!-- Bootstrap 5 JS Bundle (with Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Validation JS -->
+<script src="${pageContext.request.contextPath}/js/validation.js"></script>
+
+<!-- Main JS -->
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
 </body>
 </html>

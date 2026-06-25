@@ -3,21 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/filter/AuthenticationFilter.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/controller/LoginController.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/filter/AuthorizationFilter.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/filter/EncodingFilter.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/header.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/controller/LogoutController.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/WEB-INF/web.xml</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/register.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/navbar.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/model/MovieGenreDTO.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/footer.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/login.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/web/index.jsp</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/controller/RegisterController.java</file>
-            <file>file:/D:/PRJ301/CineStarTV/Project%20PRJ/CineStarTV/src/java/controller/MainController.java</file>
+            <file>file:/D:/PRJ301/CinestarTV/CineStarTV/Project%20PRJ/CineStarTV/src/java/utils/PasswordUtil.java</file>
+            <file>file:/D:/PRJ301/CinestarTV/CineStarTV/Project%20PRJ/CineStarTV/web/login.jsp</file>
         </group>
     </open-files>
 </project-private>
