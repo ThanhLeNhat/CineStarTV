@@ -26,6 +26,7 @@
         </c:if>
 
         <form action="${pageContext.request.contextPath}/LoginController" method="post" novalidate id="loginForm">
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
             <div class="mb-3">
                 <label class="form-label text-secondary">Email</label>
                 <input type="email" name="email" class="form-control bg-dark border-secondary text-light"

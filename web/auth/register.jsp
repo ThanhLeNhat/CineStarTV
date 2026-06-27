@@ -25,6 +25,7 @@
         </c:if>
 
         <form action="${pageContext.request.contextPath}/RegisterController" method="post" id="regForm" novalidate>
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
             <div class="mb-3">
                 <label class="form-label text-secondary">Họ và tên <span class="text-danger">*</span></label>
                 <input type="text" name="fullName" class="form-control bg-dark border-secondary text-light"

@@ -22,6 +22,7 @@
 
         <div class="csn-form-card" style="max-width:800px;">
             <form action="${pageContext.request.contextPath}/AdminController" method="post" id="movieForm" novalidate>
+                <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                 <input type="hidden" name="action" value="${not empty movie ? 'movieDoEdit' : 'movieDoAdd'}">
                 <c:if test="${not empty movie}">
                     <input type="hidden" name="movieId" value="${movie.movieId}">
