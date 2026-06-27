@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is used by NetBeans to build the project. Do not modify. -->
+<project name="CineStarTV" default="default" basedir=".">
+    <description>Builds, tests, and runs the project CineStarTV.</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

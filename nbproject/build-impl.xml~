@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*** GENERATED FROM project.xml - DO NOT EDIT  ***
+***         EDIT ../build.xml INSTEAD         ***
+-->
+<project basedir=".." default="default" name="CineStarTV-impl">
+    <fail message="Please build using Ant 1.7.1 or higher.">
+        <condition>
+            <not>
+                <antversion atleast="1.7.1"/>
+            </not>
+        </condition>
+    </fail>
+
+    <target name="default" depends="dist" description="Build whole project."/>
+
+    <!-- ===================== INIT ===================== -->
+    <target name="-pre-init"/>
+    <target name="-init-private">
+        <property file="nbproject/private/private.properties"/>
+    </target>
+    <target name="-init-user">
+        <property file="${user.properties.file}"/>
+    </target>
+    <target name="-init-project">
+        <property file="nbproject/project.properties"/>
+    </target>
+    <target name="-do-init">
+        <property name="source.encoding" value="UTF-8"/>
+        <condition property="have.sources">
+            <or>
+                <available file="${src.dir}" type="dir"/>
+            </or>
+        </condition>
+        <condition property="have.tests">
+            <available file="${test.src.dir}" type="dir"/>
+        </condition>
+        <condition property="netbeans.home+have.tests">
+            <and>
+                <isset property="netbeans.home"/>
+                <isset property="have.tests"/>
+            </and>
+        </condition>
+        <property name="run.classpath" value="${javac.classpath}:${build.classes.dir}"/>
+        <property name="debug.classpath" value="${run.classpath}"/>
+        <property name="javac.compilerargs" value=""/>
+        <property name="work.dir" value="${basedir}"/>
+        <condition property="no.javadoc.preview">
+            <isfalse value="${javadoc.preview}"/>
+        </condition>
+        <property name="build.dir" value="build"/>
+        <property name="build.web.dir" value="${build.dir}/web"/>
+        <property name="build.generated.dir" value="${build.dir}/generated"/>
+        <property name="build.classes.dir" value="${build.web.dir}/WEB-INF/classes"/>
+        <property name="build.generated.sources.dir" value="${build.dir}/generated-sources"/>
+        <property name="build.test.classes.dir" value="${build.dir}/test/classes"/>
+        <property name="build.test.results.dir" value="${build.dir}/test/results"/>
+        <property name="dist.dir" value="dist"/>
+        <property name="dist.war.excludes" value=""/>
+        <property name="conf.dir" value="src/conf"/>
+        <property name="lib.dir" value="${web.docbase.dir}/WEB-INF/lib"/>
+        <property name="war.name" value="CineStarTV.war"/>
+        <property name="src.dir" value="src/java"/>
+        <property name="test.src.dir" value="test"/>
+        <property name="web.docbase.dir" value="web"/>
+        <property name="webinf.dir" value="web/WEB-INF"/>
+    </target>
+    <target name="-post-init"/>
+    <target name="init" depends="-pre-init,-init-private,-init-user,-init-project,-do-init,-post-init"/>
+
+    <!-- ===================== CLASSPATH ===================== -->
+    <target name="-init-macrodef-property"/>
+    <target name="-init-check" depends="init">
+        <mkdir dir="${build.web.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.generated.sources.dir}"/>
+    </target>
+
+    <!-- ===================== COMPILE ===================== -->
+    <target name="-pre-compile"/>
+    <target name="-prepare-compile" depends="init,-init-check">
+        <mkdir dir="${build.classes.dir}"/>
+    </target>
+
+    <target name="-do-compile" depends="init,-init-check,-prepare-compile,-pre-compile">
+        <javac srcdir="${src.dir}"
+               destdir="${build.classes.dir}"
+               debug="${javac.debug}"
+               deprecation="${javac.deprecation}"
+               source="${javac.source}"
+               target="${javac.target}"
+               includes="${includes}"
+               excludes="${excludes}"
+               encoding="${source.encoding}"
+               includeantruntime="false">
+            <classpath>
+                <path path="${javac.classpath}"/>
+                <fileset dir="${lib.dir}" erroronmissingdir="false">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <compilerarg line="${javac.compilerargs}"/>
+        </javac>
+        <!-- Copy configuration files -->
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${conf.dir}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="-post-compile"/>
+    <target name="compile" depends="init,-init-check,-prepare-compile,-do-compile,-post-compile"
+            description="Compile project."/>
+
+    <!-- ===================== DIST (WAR) ===================== -->
+    <target name="-pre-dist"/>
+    <target name="-do-dist" depends="init,compile,-pre-dist">
+        <mkdir dir="${dist.dir}"/>
+        <!-- Copy web content -->
+        <copy todir="${build.web.dir}">
+            <fileset dir="${web.docbase.dir}" excludes="${build.web.excludes}"/>
+        </copy>
+        <!-- Copy libs -->
+        <mkdir dir="${build.web.dir}/WEB-INF/lib"/>
+        <copy todir="${build.web.dir}/WEB-INF/lib" flatten="true" failonerror="false">
+            <fileset dir="${lib.dir}" erroronmissingdir="false">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <!-- Create WAR -->
+        <war destfile="${dist.dir}/${war.name}" webxml="${build.web.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.web.dir}"/>
+        </war>
+    </target>
+    <target name="-post-dist"/>
+    <target name="dist" depends="init,compile,-pre-dist,-do-dist,-post-dist"
+            description="Build distribution (WAR)."/>
+
+    <!-- ===================== RUN ===================== -->
+    <target name="-pre-run-deploy"/>
+    <target name="-post-run-deploy"/>
+    <target name="-run-deploy-nb" if="netbeans.home" depends="init,compile,dist">
+        <nbdeploy debugmode="false" clientUrlPart="${client.urlPart}" forceRedeploy="true"/>
+    </target>
+    <target name="run-deploy" depends="init,compile,dist,-pre-run-deploy,-run-deploy-nb,-post-run-deploy"/>
+    <target name="run-display-browser" if="netbeans.home" depends="run-deploy">
+        <nbbrowse url="${client.url}"/>
+    </target>
+    <target name="run" depends="run-deploy,run-display-browser" description="Deploy to server and show in browser."/>
+
+    <!-- ===================== DEBUG ===================== -->
+    <target name="-debug-start-debugger" if="netbeans.home" depends="init">
+        <nbjpdaconnect name="${name}" host="localhost" address="${jpda.address}" transport="${jpda.transport}">
+            <classpath>
+                <path path="${debug.classpath}"/>
+            </classpath>
+        </nbjpdaconnect>
+    </target>
+    <target name="-debug-start-debuggee" depends="init,compile,dist">
+        <nbdeploy debugmode="true" clientUrlPart="${client.urlPart}"/>
+    </target>
+    <target name="debug" depends="init,compile,dist,-debug-start-debugger,-debug-start-debuggee" description="Debug project in IDE."/>
+
+    <!-- ===================== COMPILE SINGLE ===================== -->
+    <target name="compile-single" depends="init,-init-check">
+        <fail unless="javac.includes">Must set javac.includes</fail>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}"
+               debug="${javac.debug}" deprecation="${javac.deprecation}"
+               source="${javac.source}" target="${javac.target}"
+               includes="${javac.includes}" encoding="${source.encoding}"
+               includeantruntime="false">
+            <classpath>
+                <path path="${javac.classpath}"/>
+                <fileset dir="${lib.dir}" erroronmissingdir="false">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- ===================== CLEAN ===================== -->
+    <target name="-pre-clean"/>
+    <target name="-do-clean" depends="init">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    <target name="-post-clean"/>
+    <target name="clean" depends="init,-pre-clean,-do-clean,-post-clean"
+            description="Clean build products."/>
+
+    <!-- ===================== TEST ===================== -->
+    <target name="-pre-compile-test"/>
+    <target name="-do-compile-test" depends="init,compile" if="have.tests">
+        <mkdir dir="${build.test.classes.dir}"/>
+        <javac srcdir="${test.src.dir}" destdir="${build.test.classes.dir}"
+               debug="true" source="${javac.source}" target="${javac.target}"
+               encoding="${source.encoding}" includeantruntime="false">
+            <classpath>
+                <path path="${javac.test.classpath}"/>
+                <fileset dir="${lib.dir}" erroronmissingdir="false">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+    <target name="-post-compile-test"/>
+    <target name="compile-test" depends="init,compile,-pre-compile-test,-do-compile-test,-post-compile-test"/>
+
+    <target name="-pre-test-run"/>
+    <target name="-do-test-run" depends="init,compile-test" if="have.tests">
+        <mkdir dir="${build.test.results.dir}"/>
+        <junit showoutput="true" fork="true" dir="${basedir}" tempdir="${build.test.results.dir}">
+            <classpath>
+                <path path="${run.test.classpath}"/>
+                <fileset dir="${lib.dir}" erroronmissingdir="false">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <batchtest todir="${build.test.results.dir}">
+                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+        </junit>
+    </target>
+    <target name="-post-test-run"/>
+    <target name="test" depends="init,compile,compile-test,-pre-test-run,-do-test-run,-post-test-run"
+            description="Run unit tests."/>
+</project>

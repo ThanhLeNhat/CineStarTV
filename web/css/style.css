@@ -1,0 +1,323 @@
+/* ================================================
+   CineStarTV — Main CSS
+   Dark theme, red accent (CGV-inspired)
+   ================================================ */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d0d0d;
+    color: #f0f0f0;
+}
+
+a { text-decoration: none; }
+img { max-width: 100%; }
+
+/* ---------- Navbar ---------- */
+.csn-navbar {
+    background: #111;
+    border-bottom: 2px solid #e50914;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.csn-navbar .navbar-brand {
+    color: #e50914 !important;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.csn-navbar .nav-link {
+    color: #ccc !important;
+    font-weight: 500;
+    padding: 1rem 1.2rem !important;
+    transition: color .2s;
+}
+
+.csn-navbar .nav-link:hover,
+.csn-navbar .nav-link.active {
+    color: #e50914 !important;
+}
+
+.csn-navbar .btn-login {
+    border: 1px solid #e50914;
+    color: #e50914;
+    border-radius: 4px;
+    padding: .4rem 1rem;
+    font-weight: 600;
+    margin-left: .5rem;
+    transition: all .2s;
+}
+.csn-navbar .btn-login:hover { background: #e50914; color: #fff; }
+
+.csn-navbar .btn-register {
+    background: #e50914;
+    color: #fff;
+    border-radius: 4px;
+    padding: .4rem 1rem;
+    font-weight: 600;
+    margin-left: .5rem;
+}
+.csn-navbar .btn-register:hover { background: #b0060f; }
+
+/* Dropdown user */
+.csn-dropdown { position: relative; }
+.csn-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    min-width: 180px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    z-index: 999;
+}
+.csn-dropdown:hover .csn-dropdown-menu { display: block; }
+.csn-dropdown-menu a {
+    display: block;
+    padding: .6rem 1rem;
+    color: #ccc;
+    font-size: .9rem;
+    transition: background .15s;
+}
+.csn-dropdown-menu a:hover { background: #2a2a2a; color: #fff; }
+.csn-dropdown-menu .divider { border-top: 1px solid #333; margin: .3rem 0; }
+
+/* ---------- Hero ---------- */
+.csn-hero {
+    position: relative;
+    background: linear-gradient(135deg, #1a0000 0%, #0d0d0d 60%, #1a001a 100%);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.csn-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('../images/hero-bg.jpg') center/cover no-repeat;
+    opacity: .15;
+}
+.csn-hero-content { position: relative; z-index: 1; padding: 4rem 0; }
+.csn-hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; }
+.csn-hero-eyebrow { color: #e50914; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: .85rem; }
+.csn-hero-sub { color: #aaa; font-size: 1.1rem; margin-top: .8rem; }
+
+/* ---------- Movie Card ---------- */
+.movie-card { border-radius: 8px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+.movie-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(229,9,20,.3); }
+
+.movie-poster-wrap { position: relative; overflow: hidden; }
+.movie-poster-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity .25s;
+    padding: 1rem;
+}
+.movie-poster-wrap:hover .movie-poster-overlay { opacity: 1; }
+
+/* ---------- Section headings ---------- */
+.section-title { font-size: 1.5rem; font-weight: 700; color: #fff; }
+
+/* ---------- Admin Sidebar ---------- */
+.admin-wrapper { display: flex; min-height: 100vh; }
+.admin-sidebar {
+    width: 240px;
+    background: #111;
+    border-right: 1px solid #222;
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+}
+.admin-sidebar .brand {
+    color: #e50914;
+    font-weight: 800;
+    font-size: 1.3rem;
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid #222;
+    display: block;
+}
+.admin-sidebar a.nav-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 1.5rem;
+    color: #aaa;
+    font-size: .9rem;
+    transition: all .15s;
+}
+.admin-sidebar a.nav-item:hover,
+.admin-sidebar a.nav-item.active {
+    background: #1e1e1e;
+    color: #e50914;
+    border-left: 3px solid #e50914;
+}
+.admin-sidebar a.nav-item i { width: 18px; text-align: center; }
+
+.admin-content { flex: 1; padding: 2rem; background: #0d0d0d; }
+
+/* ---------- Admin Stats Card ---------- */
+.stat-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color .2s;
+}
+.stat-card:hover { border-color: #e50914; }
+.stat-card .stat-icon {
+    width: 50px; height: 50px;
+    border-radius: 10px;
+    background: rgba(229,9,20,.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #e50914; font-size: 1.3rem;
+}
+.stat-card .stat-value { font-size: 2rem; font-weight: 800; color: #fff; }
+.stat-card .stat-label { color: #888; font-size: .85rem; }
+
+/* ---------- Tables ---------- */
+.csn-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.csn-table th {
+    background: #111;
+    color: #e50914;
+    padding: .75rem 1rem;
+    text-align: left;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+.csn-table td {
+    padding: .75rem 1rem;
+    border-top: 1px solid #2a2a2a;
+    color: #ccc;
+    font-size: .9rem;
+    vertical-align: middle;
+}
+.csn-table tr:hover td { background: #222; }
+
+/* ---------- Forms ---------- */
+.csn-form-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 2rem;
+}
+.csn-form-card .form-label { color: #ccc; font-weight: 500; }
+.csn-form-card .form-control,
+.csn-form-card .form-select {
+    background: #111;
+    border: 1px solid #333;
+    color: #f0f0f0;
+    border-radius: 6px;
+}
+.csn-form-card .form-control:focus,
+.csn-form-card .form-select:focus {
+    background: #111;
+    border-color: #e50914;
+    box-shadow: 0 0 0 3px rgba(229,9,20,.2);
+    color: #f0f0f0;
+}
+.csn-form-card .form-control::placeholder { color: #555; }
+
+/* ---------- Buttons ---------- */
+.btn-csn-red { background: #e50914; color: #fff; border: none; font-weight: 600; }
+.btn-csn-red:hover { background: #b0060f; color: #fff; }
+.btn-csn-outline { border: 1px solid #e50914; color: #e50914; background: transparent; font-weight: 600; }
+.btn-csn-outline:hover { background: #e50914; color: #fff; }
+
+/* ---------- Auth Pages ---------- */
+.auth-page {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #1a0000 0%, #0d0d0d 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.auth-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+.auth-card .logo {
+    color: #e50914;
+    font-weight: 800;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.auth-card h2 { font-size: 1.4rem; font-weight: 700; color: #fff; text-align: center; margin-bottom: 1.5rem; }
+
+/* ---------- Footer ---------- */
+.csn-footer {
+    background: #0a0a0a;
+    border-top: 1px solid #222;
+    padding: 3rem 0 1rem;
+}
+.csn-footer h5 { color: #fff; font-weight: 700; margin-bottom: 1rem; }
+.csn-footer p, .csn-footer li, .csn-footer a {
+    color: #888;
+    font-size: .9rem;
+}
+.csn-footer a:hover { color: #e50914; }
+.csn-footer .social a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #222;
+    color: #888;
+    margin-right: .5rem;
+    transition: all .2s;
+}
+.csn-footer .social a:hover { background: #e50914; color: #fff; }
+.csn-footer-bottom {
+    border-top: 1px solid #1a1a1a;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    text-align: center;
+    color: #555;
+    font-size: .8rem;
+}
+
+/* ---------- Badge styles ---------- */
+.badge-P { background: #28a745; }
+.badge-C13 { background: #ffc107; color: #000; }
+.badge-C16 { background: #fd7e14; }
+.badge-C18 { background: #dc3545; }
+
+/* ---------- Alerts ---------- */
+.alert-csn {
+    border-radius: 8px;
+    border: none;
+    font-size: .9rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .csn-hero h1 { font-size: 2rem; }
+    .admin-sidebar { display: none; }
+    .admin-wrapper { flex-direction: column; }
+    .admin-content { padding: 1rem; }
+}

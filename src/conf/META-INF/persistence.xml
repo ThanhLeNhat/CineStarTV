@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence              http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="CineStarTVPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <!-- Entity Classes -->
+    <class>model.RoleDTO</class>
+    <class>model.UserDTO</class>
+    <class>model.MovieDTO</class>
+    <class>model.GenreDTO</class>
+    <class>model.MovieGenreDTO</class>
+    <class>model.CinemaDTO</class>
+    <class>model.ScreenDTO</class>
+    <class>model.SeatDTO</class>
+    <class>model.ShowtimeDTO</class>
+    <class>model.BookingDTO</class>
+    <class>model.BookingDetailDTO</class>
+    <class>model.PaymentDTO</class>
+    <class>model.VoucherDTO</class>
+    <class>model.ReviewDTO</class>
+    <class>model.NotificationDTO</class>
+    <class>model.BlogPostDTO</class>
+    <properties>
+      <!-- SQL Server 2022 Connection -->
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=CineStarTV;encrypt=true;trustServerCertificate=true"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.password" value="12345"/>
+      <!-- EclipseLink Settings -->
+      <property name="eclipselink.target-database" value="SQLServer"/>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+</persistence>
