@@ -15,7 +15,7 @@
 <section class="csn-hero">
     <div class="csn-hero-overlay"></div>
     <div class="csn-hero-content container">
-        <p class="csn-hero-eyebrow"><i class="fas fa-film"></i> Rạp chiếu phim số 1 Việt Nam</p>
+        <p class="csn-hero-eyebrow"><i class="fas fa-film"></i> Rạp chiếu phim của người Việt Nam</p>
         <h1>Trải nghiệm điện ảnh<br><span class="text-danger">đỉnh cao</span></h1>
         <p class="csn-hero-sub">Đặt vé nhanh — Chọn ghế dễ — Thanh toán tiện</p>
         <div class="mt-4">
