@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/CineStarTV"/>
+<Context path="/CineStarTV">
+    <!-- Alias: truy cập ảnh upload qua /CineStarTV/uploads/... -->
+    <Resources>
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet"
+                      base="D:\PRJ301\uploads\cinestar"
+                      webAppMount="/uploads"/>
+    </Resources>
+</Context>

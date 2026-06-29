@@ -21,7 +21,7 @@
         </div>
 
         <div class="csn-form-card" style="max-width:800px;">
-            <form action="${pageContext.request.contextPath}/MovieController" method="post" id="movieForm" novalidate>
+            <form action="${pageContext.request.contextPath}/MovieController" method="post" id="movieForm" enctype="multipart/form-data" novalidate>
                 <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                 <input type="hidden" name="action" value="${not empty movie ? 'movieDoEdit' : 'movieDoAdd'}">
                 <c:if test="${not empty movie}">
@@ -90,9 +90,16 @@
                                value="${not empty movie ? movie.rating : 0}">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">URL Poster</label>
-                        <input type="url" name="posterUrl" class="form-control"
-                               placeholder="https://..." value="${not empty movie ? movie.posterUrl : ''}">
+                        <label class="form-label">Poster phim</label>
+                        <c:if test="${not empty movie && not empty movie.posterUrl}">
+                            <div class="mb-2">
+                                <img src="${pageContext.request.contextPath}${movie.posterUrl}" alt="Poster hiện tại"
+                                     style="height:120px;object-fit:cover;border-radius:6px;">
+                                <p class="text-muted small mt-1">Poster hiện tại — tải lên ảnh mới để thay thế</p>
+                            </div>
+                        </c:if>
+                        <input type="file" name="posterFile" class="form-control" accept="image/*">
+                        <small class="text-muted">Tối đa 2MB. Định dạng: jpg, png, webp.</small>
                     </div>
                     <div class="col-12">
                         <label class="form-label">URL Trailer (YouTube)</label>

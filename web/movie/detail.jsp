@@ -14,8 +14,9 @@
     <div class="row g-5">
         <!-- Poster -->
         <div class="col-md-3">
-            <img src="${not empty movie.posterUrl ? movie.posterUrl : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
+            <img src="${not empty movie.posterUrl ? pageContext.request.contextPath.concat(movie.posterUrl) : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
                  class="img-fluid rounded shadow" alt="${movie.title}"
+                 style="width:100%;object-fit:cover;border-radius:8px;"
                  onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/images/no-poster.jpg'">
 
             <c:if test="${movie.status == 'NOW_SHOWING'}">

@@ -3,31 +3,16 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import model.*;
+import utils.ImageUtils;
 
-/**
- * MovieController — Quản lý phim và thể loại.
- *
- * Public actions (USER):
- *   - (default)    : Danh sách phim
- *   - movieDetail  : Chi tiết phim
- *   - searchMovie  : Tìm kiếm / lọc phim
- *
- * Admin actions (ADMIN/STAFF):
- *   - movieList    : Danh sách phim (admin)
- *   - movieAdd     : Form thêm phim
- *   - movieDoAdd   : Xử lý thêm phim [POST]
- *   - movieEdit    : Form sửa phim
- *   - movieDoEdit  : Xử lý sửa phim [POST]
- *   - movieDelete  : Xoá phim [POST]
- *   - genreList    : Danh sách thể loại
- *   - genreDoAdd   : Thêm thể loại [POST]
- *   - genreDelete  : Xoá thể loại [POST]
- */
+@MultipartConfig(maxFileSize = 2 * 1024 * 1024, maxRequestSize = 5 * 1024 * 1024)
 public class MovieController extends HttpServlet {
 
     private static final java.util.Set<String> ADMIN_ACTIONS = new java.util.HashSet<>(
@@ -47,7 +32,6 @@ public class MovieController extends HttpServlet {
             GenreDAO genreDAO = new GenreDAO();
             MovieGenreDAO movieGenreDAO = new MovieGenreDAO();
 
-            // Kiểm tra quyền cho admin actions
             if (action != null && ADMIN_ACTIONS.contains(action)) {
                 if (!isAdminOrStaff(request)) {
                     response.sendRedirect(request.getContextPath() + "/error/403.jsp");
@@ -55,7 +39,6 @@ public class MovieController extends HttpServlet {
                 }
             }
 
-            // ── PUBLIC ACTIONS ────────────────────────────────────────────
             if ("movieDetail".equals(action)) {
                 int movieId = Integer.parseInt(request.getParameter("id"));
                 MovieDTO movie = movieDAO.searchByID(movieId);
@@ -84,7 +67,6 @@ public class MovieController extends HttpServlet {
                 request.setAttribute("keyword", keyword);
                 url = "movie/list.jsp";
 
-            // ── ADMIN: MOVIE CRUD ─────────────────────────────────────────
             } else if ("movieList".equals(action)) {
                 request.setAttribute("movies", movieDAO.listAll());
                 request.setAttribute("msg", request.getParameter("msg"));
@@ -97,7 +79,6 @@ public class MovieController extends HttpServlet {
             } else if ("movieDoAdd".equals(action)) {
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
-                String posterUrl = request.getParameter("posterUrl");
                 String trailerUrl = request.getParameter("trailerUrl");
                 String durationStr = request.getParameter("duration");
                 String releaseDate = request.getParameter("releaseDate");
@@ -105,38 +86,42 @@ public class MovieController extends HttpServlet {
                 String genreIdStr = request.getParameter("genreId");
 
                 if (title == null || title.trim().isEmpty()) {
-                    request.setAttribute("error", "Tên phim không được để trống.");
+                    request.setAttribute("error", "Ten phim khong duoc de trong.");
                     request.setAttribute("genres", genreDAO.listAll());
                     url = "admin/movies/form.jsp";
                 } else {
                     MovieDTO movie = new MovieDTO();
                     movie.setTitle(title.trim());
                     movie.setDescription(description);
-                    movie.setPosterUrl(posterUrl);
                     movie.setTrailerUrl(trailerUrl);
                     movie.setStatus(status != null ? status : "COMING_SOON");
-                    try {
-                        movie.setDuration(Integer.parseInt(durationStr));
-                    } catch (NumberFormatException ex) {
-                        movie.setDuration(90);
-                    }
+                    try { movie.setDuration(Integer.parseInt(durationStr)); }
+                    catch (NumberFormatException ex) { movie.setDuration(90); }
                     if (releaseDate != null && !releaseDate.isEmpty()) {
-                        try {
-                            movie.setReleaseDate(new java.text.SimpleDateFormat("yyyy-MM-dd").parse(releaseDate));
-                        } catch (Exception ex) { /* ignore */ }
+                        try { movie.setReleaseDate(new java.text.SimpleDateFormat("yyyy-MM-dd").parse(releaseDate)); }
+                        catch (Exception ex) {}
+                    }
+                    try {
+                        Part posterPart = request.getPart("posterFile");
+                        if (ImageUtils.hasFile(posterPart)) {
+                            movie.setPosterUrl(ImageUtils.saveImage(posterPart, "posters"));
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        request.setAttribute("error", ex.getMessage());
+                        request.setAttribute("genres", genreDAO.listAll());
+                        url = "admin/movies/form.jsp";
+                        return;
                     }
                     movieDAO.add(movie);
-                    // Gán thể loại qua bảng MovieGenres
                     if (genreIdStr != null && !genreIdStr.isEmpty()) {
                         try {
                             MovieGenreDTO mg = new MovieGenreDTO();
                             mg.setMovieId(movie.getMovieId());
                             mg.setGenreId(Integer.parseInt(genreIdStr));
                             movieGenreDAO.add(mg);
-                        } catch (NumberFormatException ex) { /* ignore */ }
+                        } catch (NumberFormatException ex) {}
                     }
-                    response.sendRedirect(request.getContextPath()
-                            + "/MovieController?action=movieList&msg=added");
+                    response.sendRedirect(request.getContextPath() + "/MovieController?action=movieList&msg=added");
                     return;
                 }
 
@@ -153,7 +138,7 @@ public class MovieController extends HttpServlet {
                 url = "admin/movies/form.jsp";
 
             } else if ("movieDoEdit".equals(action)) {
-                int movieId = Integer.parseInt(request.getParameter("id"));
+                int movieId = Integer.parseInt(request.getParameter("movieId"));
                 MovieDTO movie = movieDAO.searchByID(movieId);
                 if (movie == null) {
                     response.sendRedirect(request.getContextPath() + "/error/404.jsp");
@@ -161,27 +146,35 @@ public class MovieController extends HttpServlet {
                 }
                 String title = request.getParameter("title");
                 if (title == null || title.trim().isEmpty()) {
-                    request.setAttribute("error", "Tên phim không được để trống.");
+                    request.setAttribute("error", "Ten phim khong duoc de trong.");
                     request.setAttribute("movie", movie);
                     request.setAttribute("genres", genreDAO.listAll());
                     url = "admin/movies/form.jsp";
                 } else {
                     movie.setTitle(title.trim());
                     movie.setDescription(request.getParameter("description"));
-                    movie.setPosterUrl(request.getParameter("posterUrl"));
                     movie.setTrailerUrl(request.getParameter("trailerUrl"));
                     movie.setStatus(request.getParameter("status"));
-                    try {
-                        movie.setDuration(Integer.parseInt(request.getParameter("duration")));
-                    } catch (NumberFormatException ex) { /* keep old */ }
+                    try { movie.setDuration(Integer.parseInt(request.getParameter("duration"))); }
+                    catch (NumberFormatException ex) {}
                     String releaseDate = request.getParameter("releaseDate");
                     if (releaseDate != null && !releaseDate.isEmpty()) {
-                        try {
-                            movie.setReleaseDate(new java.text.SimpleDateFormat("yyyy-MM-dd").parse(releaseDate));
-                        } catch (Exception ex) { /* ignore */ }
+                        try { movie.setReleaseDate(new java.text.SimpleDateFormat("yyyy-MM-dd").parse(releaseDate)); }
+                        catch (Exception ex) {}
+                    }
+                    try {
+                        Part posterPart = request.getPart("posterFile");
+                        if (ImageUtils.hasFile(posterPart)) {
+                            movie.setPosterUrl(ImageUtils.saveImage(posterPart, "posters"));
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        request.setAttribute("error", ex.getMessage());
+                        request.setAttribute("movie", movie);
+                        request.setAttribute("genres", genreDAO.listAll());
+                        url = "admin/movies/form.jsp";
+                        return;
                     }
                     movieDAO.update(movie);
-                    // Cập nhật thể loại: xoá cũ, thêm mới
                     String genreIdStr = request.getParameter("genreId");
                     if (genreIdStr != null && !genreIdStr.isEmpty()) {
                         try {
@@ -190,10 +183,9 @@ public class MovieController extends HttpServlet {
                             mg.setMovieId(movieId);
                             mg.setGenreId(Integer.parseInt(genreIdStr));
                             movieGenreDAO.add(mg);
-                        } catch (NumberFormatException ex) { /* ignore */ }
+                        } catch (NumberFormatException ex) {}
                     }
-                    response.sendRedirect(request.getContextPath()
-                            + "/MovieController?action=movieList&msg=updated");
+                    response.sendRedirect(request.getContextPath() + "/MovieController?action=movieList&msg=updated");
                     return;
                 }
 
@@ -204,11 +196,9 @@ public class MovieController extends HttpServlet {
                     movieGenreDAO.removeAllByMovieId(movieId);
                     movieDAO.remove(movie);
                 }
-                response.sendRedirect(request.getContextPath()
-                        + "/MovieController?action=movieList&msg=deleted");
+                response.sendRedirect(request.getContextPath() + "/MovieController?action=movieList&msg=deleted");
                 return;
 
-            // ── ADMIN: GENRE CRUD ─────────────────────────────────────────
             } else if ("genreList".equals(action)) {
                 request.setAttribute("genres", genreDAO.listAll());
                 request.setAttribute("msg", request.getParameter("msg"));
@@ -221,8 +211,7 @@ public class MovieController extends HttpServlet {
                     genre.setGenreName(genreName.trim());
                     genreDAO.add(genre);
                 }
-                response.sendRedirect(request.getContextPath()
-                        + "/MovieController?action=genreList&msg=added");
+                response.sendRedirect(request.getContextPath() + "/MovieController?action=genreList&msg=added");
                 return;
 
             } else if ("genreDelete".equals(action)) {
@@ -231,14 +220,23 @@ public class MovieController extends HttpServlet {
                 if (genre != null) {
                     genreDAO.remove(genre);
                 }
-                response.sendRedirect(request.getContextPath()
-                        + "/MovieController?action=genreList&msg=deleted");
+                response.sendRedirect(request.getContextPath() + "/MovieController?action=genreList&msg=deleted");
                 return;
 
             } else {
-                // Mặc định: danh sách phim công khai
-                request.setAttribute("movies", movieDAO.listAll());
+                // Lọc theo status nếu có (tab Đang chiếu / Sắp chiếu)
+                String status = request.getParameter("status");
+                java.util.ArrayList<MovieDTO> movies;
+                if ("NOW_SHOWING".equals(status)) {
+                    movies = movieDAO.listByStatus("NOW_SHOWING");
+                } else if ("COMING_SOON".equals(status)) {
+                    movies = movieDAO.listByStatus("COMING_SOON");
+                } else {
+                    movies = movieDAO.listAll();
+                }
+                request.setAttribute("movies", movies);
                 request.setAttribute("genres", genreDAO.listAll());
+                request.setAttribute("currentStatus", status);
             }
 
         } catch (NumberFormatException e) {
@@ -246,7 +244,7 @@ public class MovieController extends HttpServlet {
             return;
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Đã xảy ra lỗi. Vui lòng thử lại.");
+            request.setAttribute("error", "Da xay ra loi. Vui long thu lai.");
         } finally {
             if (!response.isCommitted()) {
                 request.getRequestDispatcher(url).forward(request, response);

@@ -47,7 +47,7 @@
                         <tr>
                             <td>${s.count}</td>
                             <td>
-                                <img src="${not empty movie.posterUrl ? movie.posterUrl : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
+                                <img src="${not empty movie.posterUrl ? pageContext.request.contextPath.concat(movie.posterUrl) : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
                                      alt="" style="width:45px;height:60px;object-fit:cover;border-radius:4px;"
                                      onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/images/no-poster.jpg'">
                             </td>

@@ -65,7 +65,7 @@
                     <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="card movie-card bg-dark border-secondary h-100">
                             <div class="movie-poster-wrap">
-                                <img src="${not empty movie.posterUrl ? movie.posterUrl : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
+                                <img src="${not empty movie.posterUrl ? pageContext.request.contextPath.concat(movie.posterUrl) : pageContext.request.contextPath.concat('/images/no-poster.jpg')}"
                                      class="card-img-top" alt="${movie.title}"
                                      style="height:300px;object-fit:cover;"
                                      onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/images/no-poster.jpg'">
