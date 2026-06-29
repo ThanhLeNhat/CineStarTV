@@ -33,14 +33,14 @@
             <div class="col-sm-6 col-lg-3">
                 <div class="stat-card">
                     <div class="stat-icon mb-3"><i class="fas fa-ticket-alt"></i></div>
-                    <div class="stat-value">—</div>
+                    <div class="stat-value">${totalBookings}</div>
                     <div class="stat-label">Đặt vé</div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3">
                 <div class="stat-card">
                     <div class="stat-icon mb-3"><i class="fas fa-money-bill"></i></div>
-                    <div class="stat-value">—</div>
+                    <div class="stat-value"><fmt:formatNumber value="${totalRevenue}" pattern="#,###"/>đ</div>
                     <div class="stat-label">Doanh thu</div>
                 </div>
             </div>
@@ -57,19 +57,22 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
+                <a href="${pageContext.request.contextPath}/UserController?action=userList"
+                   class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
                     <i class="fas fa-users fa-2x text-danger mb-2"></i>
                     <div class="text-white">Quản lý user</div>
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
-                    <i class="fas fa-building fa-2x text-danger mb-2"></i>
-                    <div class="text-white">Quản lý rạp</div>
+                <a href="${pageContext.request.contextPath}/VoucherController?action=voucherList"
+                   class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
+                    <i class="fas fa-tag fa-2x text-danger mb-2"></i>
+                    <div class="text-white">Quản lý voucher</div>
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="#" class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
+                <a href="${pageContext.request.contextPath}/BookingController?action=adminBookingList"
+                   class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
                     <i class="fas fa-ticket-alt fa-2x text-danger mb-2"></i>
                     <div class="text-white">Quản lý đặt vé</div>
                 </a>

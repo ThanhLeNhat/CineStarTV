@@ -43,8 +43,11 @@
                                 <a href="${pageContext.request.contextPath}/MainController?action=profile">
                                     <i class="fas fa-user me-2"></i>Tài khoản
                                 </a>
-                                <a href="${pageContext.request.contextPath}/MainController?action=bookingHistory">
+                                <a href="${pageContext.request.contextPath}/BookingController?action=bookingHistory">
                                     <i class="fas fa-ticket-alt me-2"></i>Lịch sử vé
+                                </a>
+                                <a href="${pageContext.request.contextPath}/NotificationController?action=notificationList">
+                                    <i class="fas fa-bell me-2"></i>Thông báo
                                 </a>
                                 <c:if test="${sessionScope.role == 'ADMIN'}">
                                     <div class="divider"></div>

@@ -12,23 +12,29 @@
            class="nav-item ${param.action == 'movieList' || param.action == 'movieAdd' || param.action == 'movieEdit' ? 'active' : ''}">
             <i class="fas fa-film"></i>Phim
         </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-building"></i>Rạp / Phòng
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-calendar-alt"></i>Lịch chiếu
-        </a>
-        <a href="#" class="nav-item">
+        <a href="${pageContext.request.contextPath}/BookingController?action=adminBookingList"
+           class="nav-item ${param.action == 'adminBookingList' ? 'active' : ''}">
             <i class="fas fa-ticket-alt"></i>Đặt vé
         </a>
-        <a href="#" class="nav-item">
+        <a href="${pageContext.request.contextPath}/UserController?action=userList"
+           class="nav-item ${param.action == 'userList' || param.action == 'userEdit' ? 'active' : ''}">
             <i class="fas fa-users"></i>Người dùng
         </a>
-        <a href="#" class="nav-item">
+        <a href="${pageContext.request.contextPath}/VoucherController?action=voucherList"
+           class="nav-item ${param.action == 'voucherList' || param.action == 'voucherAdd' || param.action == 'voucherEdit' ? 'active' : ''}">
             <i class="fas fa-tag"></i>Voucher
         </a>
-        <a href="#" class="nav-item">
+        <a href="${pageContext.request.contextPath}/ReviewController?action=adminReviewList"
+           class="nav-item ${param.action == 'adminReviewList' ? 'active' : ''}">
+            <i class="fas fa-star"></i>Đánh giá
+        </a>
+        <a href="${pageContext.request.contextPath}/BlogPostController?action=adminBlogList"
+           class="nav-item ${param.action == 'adminBlogList' || param.action == 'blogAdd' || param.action == 'blogEdit' ? 'active' : ''}">
             <i class="fas fa-newspaper"></i>Blog
+        </a>
+        <a href="${pageContext.request.contextPath}/NotificationController?action=adminSendForm"
+           class="nav-item ${param.action == 'adminSendForm' ? 'active' : ''}">
+            <i class="fas fa-bell"></i>Thông báo
         </a>
         <div class="mt-auto pt-3" style="border-top:1px solid #222;margin-top:auto;">
             <a href="${pageContext.request.contextPath}/HomeController" class="nav-item">

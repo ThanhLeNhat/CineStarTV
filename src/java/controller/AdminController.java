@@ -74,8 +74,11 @@ public class AdminController extends HttpServlet {
 
             } else {
                 // Dashboard
+                BookingDAO bookingDAO = new BookingDAO();
                 request.setAttribute("totalMovies", movieDAO.countAll());
                 request.setAttribute("totalUsers", userDAO.countAll());
+                request.setAttribute("totalBookings", bookingDAO.countAll());
+                request.setAttribute("totalRevenue", bookingDAO.sumRevenue());
                 url = "admin/dashboard.jsp";
             }
 

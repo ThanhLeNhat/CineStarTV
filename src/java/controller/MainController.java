@@ -31,6 +31,8 @@ public class MainController extends HttpServlet {
                 url = "RegisterController";
             } else if ("logout".equals(action)) {
                 url = "LogoutController";
+
+            // === MOVIE ===
             } else if ("movieList".equals(action)) {
                 url = "MovieController";
             } else if ("movieDetail".equals(action)) {
@@ -39,20 +41,60 @@ public class MainController extends HttpServlet {
                 url = "MovieController";
             } else if ("cinemaList".equals(action)) {
                 url = "CinemaController";
+
+            // === BOOKING ===
             } else if ("selectShowtime".equals(action)) {
                 url = "BookingController";
             } else if ("selectSeat".equals(action)) {
                 url = "BookingController";
             } else if ("confirmBooking".equals(action)) {
                 url = "BookingController";
+            } else if ("bookingHistory".equals(action)) {
+                url = "BookingController";
+            } else if ("cancelBooking".equals(action)) {
+                url = "BookingController";
+
+            // === PAYMENT ===
+            } else if ("processPayment".equals(action)) {
+                url = "PaymentController";
+            } else if ("doPayment".equals(action)) {
+                url = "PaymentController";
+            } else if ("paymentResult".equals(action)) {
+                url = "PaymentController";
+
+            // === REVIEW ===
+            } else if ("addReview".equals(action)) {
+                url = "ReviewController";
+            } else if ("editReview".equals(action)) {
+                url = "ReviewController";
+            } else if ("deleteReview".equals(action)) {
+                url = "ReviewController";
+
+            // === VOUCHER (user) ===
+            } else if ("applyVoucher".equals(action)) {
+                url = "VoucherController";
+
+            // === NOTIFICATION (user) ===
+            } else if ("notificationList".equals(action)) {
+                url = "NotificationController";
+            } else if ("markRead".equals(action)) {
+                url = "NotificationController";
+            } else if ("markAllRead".equals(action)) {
+                url = "NotificationController";
+            } else if ("deleteNotification".equals(action)) {
+                url = "NotificationController";
+
+            // === BLOG (public) ===
             } else if ("blogList".equals(action)) {
-                url = "BlogController";
+                url = "BlogPostController";
             } else if ("blogDetail".equals(action)) {
-                url = "BlogController";
+                url = "BlogPostController";
+
+            // === PROFILE ===
             } else if ("profile".equals(action)) {
                 url = "ProfileController";
-            } else if ("bookingHistory".equals(action)) {
-                url = "ProfileController";
+
+            // === ADMIN ===
             } else if ("adminDashboard".equals(action)) {
                 url = "AdminController";
             } else if ("adminMovies".equals(action)) {
@@ -63,6 +105,40 @@ public class MainController extends HttpServlet {
                 url = "AdminController";
             } else if ("adminDeleteMovie".equals(action)) {
                 url = "AdminController";
+            // Admin Users
+            } else if ("adminUsers".equals(action)) {
+                url = "UserController";
+            // Admin Bookings
+            } else if ("adminBookingList".equals(action)) {
+                url = "BookingController";
+            // Admin Vouchers
+            } else if ("adminVouchers".equals(action)) {
+                url = "VoucherController";
+            // Admin Blogs
+            } else if ("adminBlogList".equals(action)) {
+                url = "BlogPostController";
+            } else if ("blogAdd".equals(action)) {
+                url = "BlogPostController";
+            } else if ("blogDoAdd".equals(action)) {
+                url = "BlogPostController";
+            } else if ("blogEdit".equals(action)) {
+                url = "BlogPostController";
+            } else if ("blogDoEdit".equals(action)) {
+                url = "BlogPostController";
+            } else if ("blogDelete".equals(action)) {
+                url = "BlogPostController";
+            // Admin Reviews
+            } else if ("adminReviewList".equals(action)) {
+                url = "ReviewController";
+            } else if ("hideReview".equals(action)) {
+                url = "ReviewController";
+            } else if ("showReview".equals(action)) {
+                url = "ReviewController";
+            // Admin Notifications
+            } else if ("adminSendForm".equals(action)) {
+                url = "NotificationController";
+            } else if ("sendNotification".equals(action)) {
+                url = "NotificationController";
             }
 
         } catch (Exception e) {

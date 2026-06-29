@@ -48,8 +48,8 @@
     <!-- ============================================================
          FILTER MAPPINGS
          AuthenticationFilter → các URL cần đăng nhập
-         AdminOnlyFilter      → AdminController (chỉ ADMIN)
-         StaffFilter          → ShowtimeController, BookingController... (ADMIN + STAFF)
+         AdminOnlyFilter      → AdminController, UserController, VoucherController
+         StaffFilter          → ShowtimeController
          ============================================================ -->
     <!-- Yêu cầu đăng nhập -->
     <filter-mapping>
@@ -68,10 +68,22 @@
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/NotificationController</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/PaymentController</url-pattern>
+    </filter-mapping>
     <!-- Chỉ ADMIN mới vào được -->
     <filter-mapping>
         <filter-name>AdminOnlyFilter</filter-name>
         <url-pattern>/AdminController</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminOnlyFilter</filter-name>
+        <url-pattern>/UserController</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminOnlyFilter</filter-name>
+        <url-pattern>/VoucherController</url-pattern>
     </filter-mapping>
     <!-- ADMIN hoặc STAFF -->
     <filter-mapping>
@@ -136,6 +148,63 @@
     <servlet-mapping>
         <servlet-name>AdminController</servlet-name>
         <url-pattern>/AdminController</url-pattern>
+    </servlet-mapping>
+    <!-- === NEW SERVLETS === -->
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>controller.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/UserController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>controller.BookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/BookingController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PaymentController</servlet-name>
+        <servlet-class>controller.PaymentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentController</servlet-name>
+        <url-pattern>/PaymentController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VoucherController</servlet-name>
+        <servlet-class>controller.VoucherController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VoucherController</servlet-name>
+        <url-pattern>/VoucherController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ReviewController</servlet-name>
+        <servlet-class>controller.ReviewController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReviewController</servlet-name>
+        <url-pattern>/ReviewController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NotificationController</servlet-name>
+        <servlet-class>controller.NotificationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationController</servlet-name>
+        <url-pattern>/NotificationController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BlogPostController</servlet-name>
+        <servlet-class>controller.BlogPostController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BlogPostController</servlet-name>
+        <url-pattern>/BlogPostController</url-pattern>
     </servlet-mapping>
     <!-- ============================================================
          WELCOME FILE
