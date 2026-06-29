@@ -50,7 +50,7 @@
         <h4 class="text-white mb-3">Truy cập nhanh</h4>
         <div class="row g-3">
             <div class="col-md-3">
-                <a href="${pageContext.request.contextPath}/AdminController?action=movieList"
+                <a href="${pageContext.request.contextPath}/MovieController?action=movieList"
                    class="card bg-dark border-secondary text-center p-4 text-decoration-none d-block">
                     <i class="fas fa-film fa-2x text-danger mb-2"></i>
                     <div class="text-white">Quản lý phim</div>

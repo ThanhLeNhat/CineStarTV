@@ -149,6 +149,22 @@
         <servlet-name>AdminController</servlet-name>
         <url-pattern>/AdminController</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>CinemaController</servlet-name>
+        <servlet-class>controller.CinemaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CinemaController</servlet-name>
+        <url-pattern>/CinemaController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ShowtimeController</servlet-name>
+        <servlet-class>controller.ShowtimeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowtimeController</servlet-name>
+        <url-pattern>/ShowtimeController</url-pattern>
+    </servlet-mapping>
     <!-- === NEW SERVLETS === -->
     <servlet>
         <servlet-name>UserController</servlet-name>

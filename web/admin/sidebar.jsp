@@ -8,9 +8,21 @@
            class="nav-item ${empty param.action ? 'active' : ''}">
             <i class="fas fa-tachometer-alt"></i>Dashboard
         </a>
-        <a href="${pageContext.request.contextPath}/AdminController?action=movieList"
+        <a href="${pageContext.request.contextPath}/MovieController?action=movieList"
            class="nav-item ${param.action == 'movieList' || param.action == 'movieAdd' || param.action == 'movieEdit' ? 'active' : ''}">
             <i class="fas fa-film"></i>Phim
+        </a>
+        <a href="${pageContext.request.contextPath}/MovieController?action=genreList"
+           class="nav-item ${param.action == 'genreList' ? 'active' : ''}">
+            <i class="fas fa-tags"></i>Thể loại
+        </a>
+        <a href="${pageContext.request.contextPath}/CinemaController?action=cinemaList"
+           class="nav-item ${param.action == 'cinemaList' || param.action == 'cinemaAdd' || param.action == 'cinemaEdit' || param.action == 'screenList' ? 'active' : ''}">
+            <i class="fas fa-building"></i>Rạp chiếu
+        </a>
+        <a href="${pageContext.request.contextPath}/ShowtimeController?action=showtimeList"
+           class="nav-item ${param.action == 'showtimeList' || param.action == 'showtimeAdd' ? 'active' : ''}">
+            <i class="fas fa-calendar-alt"></i>Lịch chiếu
         </a>
         <a href="${pageContext.request.contextPath}/BookingController?action=adminBookingList"
            class="nav-item ${param.action == 'adminBookingList' ? 'active' : ''}">

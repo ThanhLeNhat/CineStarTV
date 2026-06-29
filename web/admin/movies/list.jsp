@@ -10,7 +10,7 @@
     <main class="admin-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="text-white mb-0"><i class="fas fa-film text-danger me-2"></i>Quản lý phim</h2>
-            <a href="${pageContext.request.contextPath}/AdminController?action=movieAdd" class="btn btn-danger">
+            <a href="${pageContext.request.contextPath}/MovieController?action=movieAdd" class="btn btn-danger">
                 <i class="fas fa-plus me-2"></i>Thêm phim
             </a>
         </div>
@@ -69,11 +69,11 @@
                             </td>
                             <td><span class="text-warning"><i class="fas fa-star me-1"></i>${movie.rating}</span></td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/AdminController?action=movieEdit&id=${movie.movieId}"
+                                <a href="${pageContext.request.contextPath}/MovieController?action=movieEdit&id=${movie.movieId}"
                                    class="btn btn-sm btn-outline-warning me-1" title="Sửa">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="${pageContext.request.contextPath}/AdminController?action=movieDelete&id=${movie.movieId}"
+                                <a href="${pageContext.request.contextPath}/MovieController?action=movieDelete&id=${movie.movieId}"
                                    class="btn btn-sm btn-outline-danger"
                                    onclick="return confirm('Xác nhận xóa phim này?')" title="Xóa">
                                     <i class="fas fa-trash"></i>

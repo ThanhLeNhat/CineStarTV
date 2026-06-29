@@ -12,7 +12,7 @@
     <%@ include file="../sidebar.jsp" %>
     <main class="admin-content">
         <div class="d-flex align-items-center gap-3 mb-4">
-            <a href="${pageContext.request.contextPath}/AdminController?action=movieList"
+            <a href="${pageContext.request.contextPath}/MovieController?action=movieList"
                class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left"></i></a>
             <h2 class="text-white mb-0">
                 <i class="fas fa-film text-danger me-2"></i>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="csn-form-card" style="max-width:800px;">
-            <form action="${pageContext.request.contextPath}/AdminController" method="post" id="movieForm" novalidate>
+            <form action="${pageContext.request.contextPath}/MovieController" method="post" id="movieForm" novalidate>
                 <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
                 <input type="hidden" name="action" value="${not empty movie ? 'movieDoEdit' : 'movieDoAdd'}">
                 <c:if test="${not empty movie}">
@@ -107,7 +107,7 @@
                         <button type="submit" class="btn btn-csn-red px-5">
                             <i class="fas fa-save me-2"></i>${not empty movie ? 'Cập nhật' : 'Thêm phim'}
                         </button>
-                        <a href="${pageContext.request.contextPath}/AdminController?action=movieList"
+                        <a href="${pageContext.request.contextPath}/MovieController?action=movieList"
                            class="btn btn-outline-secondary px-4">Hủy</a>
                     </div>
                 </div>
