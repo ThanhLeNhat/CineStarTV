@@ -77,17 +77,26 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Ngôn ngữ</label>
+                        <label class="form-label">Hình thức chiếu</label>
                         <select name="language" class="form-select">
-                            <option value="Phụ đề"    ${not empty movie && movie.language == 'Phụ đề'    ? 'selected' : ''}>Phụ đề</option>
+                            <option value="Phụ đề" ${not empty movie && movie.language == 'Phụ đề' ? 'selected' : ''}>Phụ đề</option>
                             <option value="Lồng tiếng" ${not empty movie && movie.language == 'Lồng tiếng' ? 'selected' : ''}>Lồng tiếng</option>
+                            <option value="Thuyết minh" ${not empty movie && movie.language == 'Thuyết minh' ? 'selected' : ''}>Thuyết minh</option>
                             <option value="Nguyên bản" ${not empty movie && movie.language == 'Nguyên bản' ? 'selected' : ''}>Nguyên bản</option>
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Rating (0-10)</label>
-                        <input type="number" name="rating" class="form-control" min="0" max="10" step="0.1"
-                               value="${not empty movie ? movie.rating : 0}">
+                        <label class="form-label">Thể loại</label>
+                        <select name="genreId" class="form-select">
+                            <option value="">— Chọn thể loại —</option>
+                            <c:forEach var="g" items="${genres}">
+                                <option value="${g.genreId}"
+                                    ${not empty movieGenres && movieGenres[0].genreId == g.genreId ? 'selected' : ''}>
+                                    ${g.genreName}
+                                </option>
+                            </c:forEach>
+                        </select>
+                        
                     </div>
                     <div class="col-12">
                         <label class="form-label">Poster phim</label>
@@ -115,20 +124,4 @@
                             <i class="fas fa-save me-2"></i>${not empty movie ? 'Cập nhật' : 'Thêm phim'}
                         </button>
                         <a href="${pageContext.request.contextPath}/MovieController?action=movieList"
-                           class="btn btn-outline-secondary px-4">Hủy</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </main>
-</div>
-
-<script>
-document.getElementById('movieForm').addEventListener('submit', function(e) {
-    if (!this.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
-    this.classList.add('was-validated');
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+         

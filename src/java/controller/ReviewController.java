@@ -30,20 +30,16 @@ public class ReviewController extends HttpServlet {
                 int movieId = Integer.parseInt(request.getParameter("movieId"));
                 int rating = Integer.parseInt(request.getParameter("rating"));
                 String comment = request.getParameter("comment");
+                MovieDAO movieDAO = new MovieDAO();
 
-                // Kiểm tra đã review chưa
                 ReviewDTO existing = reviewDAO.searchByUserAndMovie(currentUser.getUserId(), movieId);
                 if (existing != null) {
-                    // Cập nhật review cũ
                     existing.setRating(rating);
                     existing.setComment(comment);
                     existing.setStatus("ACTIVE");
                     reviewDAO.update(existing);
                 } else {
-                    // Tạo review mới
-                    MovieDAO movieDAO = new MovieDAO();
                     MovieDTO movie = movieDAO.searchByID(movieId);
-
                     ReviewDTO review = new ReviewDTO();
                     review.setUser(currentUser);
                     review.setMovie(movie);
@@ -52,6 +48,11 @@ public class ReviewController extends HttpServlet {
                     review.setStatus("ACTIVE");
                     reviewDAO.add(review);
                 }
+
+                // Cập nhật rating trung bình của phim
+                double avg = reviewDAO.getAverageRating(movieId);
+                int count = reviewDAO.countByMovieId(movieId);
+                movieDAO.updateRating(movieId, Math.round(avg * 10.0) / 10.0, count);
 
                 response.sendRedirect(request.getContextPath()
                         + "/MovieController?action=movieDetail&id=" + movieId + "&msg=reviewed");

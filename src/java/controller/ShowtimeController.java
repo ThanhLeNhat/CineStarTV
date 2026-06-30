@@ -31,7 +31,7 @@ public class ShowtimeController extends HttpServlet {
 
     private static final java.util.Set<String> ADMIN_ACTIONS = new java.util.HashSet<>(
             java.util.Arrays.asList(
-                    "showtimeList", "showtimeAdd", "showtimeDoAdd", "showtimeDelete",
+                    "showtimeList", "showtimeAdd", "showtimeDoAdd", "showtimeEdit", "showtimeDoEdit", "showtimeDelete",
                     "seatList", "seatGenerate", "seatDelete"
             )
     );
@@ -122,6 +122,40 @@ public class ShowtimeController extends HttpServlet {
                     return;
                 }
 
+            } else if ("showtimeEdit".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                ShowtimeDTO showtime = showtimeDAO.searchByID(id);
+                if (showtime == null) {
+                    response.sendRedirect(request.getContextPath() + "/ShowtimeController?action=showtimeList");
+                    return;
+                }
+                request.setAttribute("showtime", showtime);
+                request.setAttribute("movies", new MovieDAO().listAll());
+                request.setAttribute("cinemas", new CinemaDAO().listAll());
+                url = "admin/showtimes/edit.jsp";
+
+            } else if ("showtimeDoEdit".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("showtimeId"));
+                ShowtimeDTO showtime = showtimeDAO.searchByID(id);
+                if (showtime != null) {
+                    String showDate = request.getParameter("showDate");
+                    String startTime = request.getParameter("startTime");
+                    String basePriceStr = request.getParameter("basePrice");
+                    String status = request.getParameter("status");
+                    try {
+                        showtime.setShowDate(new java.text.SimpleDateFormat("yyyy-MM-dd").parse(showDate));
+                    } catch (Exception e) {}
+                    if (startTime != null) showtime.setStartTime(startTime);
+                    if (basePriceStr != null) {
+                        try { showtime.setBasePrice(Long.parseLong(basePriceStr)); } catch (Exception e) {}
+                    }
+                    if (status != null) showtime.setStatus(status);
+                    showtimeDAO.update(showtime);
+                }
+                response.sendRedirect(request.getContextPath()
+                        + "/ShowtimeController?action=showtimeList&msg=updated");
+                return;
+
             } else if ("showtimeDelete".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 ShowtimeDTO showtime = showtimeDAO.searchByID(id);
@@ -163,13 +197,24 @@ public class ShowtimeController extends HttpServlet {
                         seat.setScreen(screen);
                         seat.setSeatRow(rowLabels[r]);
                         seat.setSeatNumber(c);
-                        // Hàng cuối là VIP
-                        seat.setSeatType(r == rows - 1 ? "VIP" : "STANDARD");
+                        // Hàng cuối: SWEETBOX, 2 hàng trước cuối: VIP, còn lại: STANDARD
+                        String seatType;
+                        if (r == rows - 1) {
+                            seatType = "SWEETBOX";
+                        } else if (r >= rows - 3) {
+                            seatType = "VIP";
+                        } else {
+                            seatType = "STANDARD";
+                        }
+                        seat.setSeatType(seatType);
                         seat.setStatus("ACTIVE");
                         seats.add(seat);
                     }
                 }
                 seatDAO.addBulk(seats);
+                // Cập nhật capacity theo số ghế thực tế
+                screen.setCapacity(seats.size());
+                screenDAO.update(screen);
                 response.sendRedirect(request.getContextPath()
                         + "/ShowtimeController?action=seatList&screenId=" + screenId + "&msg=generated");
                 return;

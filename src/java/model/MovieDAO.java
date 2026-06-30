@@ -122,6 +122,32 @@ public class MovieDAO implements IDAO<MovieDTO, Integer> {
         }
     }
 
+    public ArrayList<MovieDTO> listByGenreId(int genreId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return new ArrayList<>(
+                    em.createQuery(
+                            "SELECT DISTINCT m FROM MovieDTO m JOIN MovieGenreDTO mg ON mg.movieId = m.movieId " +
+                            "WHERE mg.genreId = :gid ORDER BY m.createdAt DESC",
+                            MovieDTO.class)
+                            .setParameter("gid", genreId)
+                            .getResultList()
+            );
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean updateRating(int movieId, double avgRating, int count) {
+        return executeInTransaction(em -> {
+            MovieDTO m = em.find(MovieDTO.class, movieId);
+            if (m != null) {
+                m.setRating(avgRating);
+                m.setRatingCount(count);
+            }
+        });
+    }
+
     public long countAll() {
         EntityManager em = JpaUtil.getEntityManager();
         try {

@@ -59,9 +59,39 @@ public class ShowtimeDAO implements IDAO<ShowtimeDTO, Integer> {
         EntityManager em = JpaUtil.getEntityManager();
         try {
             return new ArrayList<>(em.createQuery(
-                    "SELECT s FROM ShowtimeDTO s WHERE s.movie.movieId = :mid AND s.status = 'ACTIVE' ORDER BY s.showDate, s.startTime",
+                    "SELECT s FROM ShowtimeDTO s WHERE s.movie.movieId = :mid AND s.status = 'ACTIVE' ORDER BY s.screen.cinema.cinemaId, s.showDate, s.startTime",
                     ShowtimeDTO.class)
                     .setParameter("mid", movieId).getResultList());
+        } finally { em.close(); }
+    }
+
+    public ArrayList<ShowtimeDTO> listByMovieDateCity(int movieId, Date date, String city) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return new ArrayList<>(em.createQuery(
+                    "SELECT s FROM ShowtimeDTO s WHERE s.movie.movieId = :mid AND s.showDate = :date " +
+                    "AND s.screen.cinema.city = :city AND s.status = 'ACTIVE' " +
+                    "ORDER BY s.screen.cinema.cinemaId, s.startTime",
+                    ShowtimeDTO.class)
+                    .setParameter("mid", movieId)
+                    .setParameter("date", date)
+                    .setParameter("city", city)
+                    .getResultList());
+        } finally { em.close(); }
+    }
+
+    public java.util.List<String> listCitiesByMovieId(int movieId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            java.util.Date today = new java.util.Date();
+            return em.createQuery(
+                    "SELECT DISTINCT s.screen.cinema.city FROM ShowtimeDTO s " +
+                    "WHERE s.movie.movieId = :mid AND s.status = 'ACTIVE' AND s.showDate >= :today " +
+                    "ORDER BY s.screen.cinema.city",
+                    String.class)
+                    .setParameter("mid", movieId)
+                    .setParameter("today", today)
+                    .getResultList();
         } finally { em.close(); }
     }
 

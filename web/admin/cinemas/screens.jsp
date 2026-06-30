@@ -82,6 +82,10 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <a href="${pageContext.request.contextPath}/ShowtimeController?action=seatList&screenId=${screen.screenId}"
+                                           class="btn btn-sm btn-outline-info me-1" title="Quản lý ghế">
+                                            <i class="fas fa-chair"></i>
+                                        </a>
                                         <a href="${pageContext.request.contextPath}/CinemaController?action=screenDelete&id=${screen.screenId}&cinemaId=${cinema.cinemaId}"
                                            class="btn btn-sm btn-outline-danger"
                                            onclick="return confirm('Xác nhận xóa phòng này?')" title="Xóa">

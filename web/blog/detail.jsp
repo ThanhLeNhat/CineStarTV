@@ -2,7 +2,7 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 
-<% request.setAttribute("pageTitle", (not empty post ? post.title : "Bài viết") + " - CineStarTV"); %>
+<% request.setAttribute("pageTitle", request.getAttribute("post") != null ? ((model.BlogPostDTO)request.getAttribute("post")).getTitle() + " - CineStarTV" : "Bài viết - CineStarTV"); %>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/navbar.jsp" %>
 

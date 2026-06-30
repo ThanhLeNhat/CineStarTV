@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/MainController?action=cinemaList">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/CinemaController">
                         <i class="fas fa-building me-1"></i>Rạp
                     </a>
                 </li>

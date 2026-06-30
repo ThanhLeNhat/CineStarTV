@@ -68,4 +68,14 @@ public class ReviewDAO implements IDAO<ReviewDTO, Integer> {
             return avg != null ? avg : 0;
         } finally { em.close(); }
     }
+
+    public int countByMovieId(int movieId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            Long count = em.createQuery(
+                    "SELECT COUNT(r) FROM ReviewDTO r WHERE r.movie.movieId = :mid AND r.status = 'ACTIVE'",
+                    Long.class).setParameter("mid", movieId).getSingleResult();
+            return count != null ? count.intValue() : 0;
+        } finally { em.close(); }
+    }
 }

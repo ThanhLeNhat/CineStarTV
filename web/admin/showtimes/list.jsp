@@ -51,7 +51,11 @@
                                     ${st.status == 'ACTIVE' ? 'Đang bán' : 'Đã đóng'}
                                 </span>
                             </td>
-                            <td>
+                            <td class="d-flex gap-1">
+                                <a href="${pageContext.request.contextPath}/ShowtimeController?action=showtimeEdit&id=${st.showtimeId}"
+                                   class="btn btn-sm btn-outline-secondary" title="Sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
                                 <a href="${pageContext.request.contextPath}/ShowtimeController?action=showtimeDelete&id=${st.showtimeId}"
                                    class="btn btn-sm btn-outline-danger"
                                    onclick="return confirm('Xác nhận xóa lịch chiếu này?')" title="Xóa">

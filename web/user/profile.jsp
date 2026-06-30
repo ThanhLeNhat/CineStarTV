@@ -17,7 +17,7 @@
 
             <div class="csn-form-card">
                 <div class="text-center mb-4">
-                    <img src="${pageContext.request.contextPath}/assets/images/${profileUser.avatar}"
+                    <img src="${profileUser.avatar != null && profileUser.avatar.startsWith('/uploads') ? pageContext.request.contextPath.concat(profileUser.avatar) : pageContext.request.contextPath.concat('/assets/images/').concat(profileUser.avatar != null ? profileUser.avatar : 'default-avatar.png')}"
                          onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/default-avatar.png'"
                          alt="Avatar" class="rounded-circle"
                          style="width:100px;height:100px;object-fit:cover;border:3px solid #e71a0f;">

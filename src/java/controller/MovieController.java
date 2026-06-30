@@ -56,15 +56,19 @@ public class MovieController extends HttpServlet {
 
             } else if ("searchMovie".equals(action)) {
                 String keyword = request.getParameter("keyword");
+                String genreIdStr = request.getParameter("genreId");
                 ArrayList<MovieDTO> movies;
                 if (keyword != null && !keyword.trim().isEmpty()) {
                     movies = movieDAO.searchByTitle(keyword.trim());
+                } else if (genreIdStr != null && !genreIdStr.isEmpty()) {
+                    movies = movieDAO.listByGenreId(Integer.parseInt(genreIdStr));
                 } else {
                     movies = movieDAO.listAll();
                 }
                 request.setAttribute("movies", movies);
                 request.setAttribute("genres", genreDAO.listAll());
                 request.setAttribute("keyword", keyword);
+                request.setAttribute("selectedGenreId", genreIdStr);
                 url = "movie/list.jsp";
 
             } else if ("movieList".equals(action)) {

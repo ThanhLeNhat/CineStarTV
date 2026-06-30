@@ -2,7 +2,7 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 
-<% request.setAttribute("pageTitle", (empty post ? "Thêm" : "Sửa").concat(" bài viết - Admin")); %>
+<% request.setAttribute("pageTitle", request.getAttribute("post") == null ? "Thêm bài viết - Admin" : "Sửa bài viết - Admin"); %>
 <%@ include file="../../common/header.jsp" %>
 
 <div class="admin-wrapper">

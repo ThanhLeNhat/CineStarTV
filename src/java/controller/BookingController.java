@@ -26,16 +26,37 @@ public class BookingController extends HttpServlet {
             UserDTO currentUser = (session != null) ? (UserDTO) session.getAttribute("user") : null;
 
             if ("selectShowtime".equals(action)) {
-                // Bước 1: Chọn suất chiếu cho 1 phim
                 int movieId = Integer.parseInt(request.getParameter("movieId"));
+                String selectedDate = request.getParameter("date");
+                String selectedCity = request.getParameter("city");
                 MovieDAO movieDAO = new MovieDAO();
                 ShowtimeDAO showtimeDAO = new ShowtimeDAO();
 
                 MovieDTO movie = movieDAO.searchByID(movieId);
-                ArrayList<ShowtimeDTO> showtimes = showtimeDAO.listByMovieId(movieId);
+                java.util.List<String> cities = showtimeDAO.listCitiesByMovieId(movieId);
+
+                // Mặc định: ngày hôm nay, thành phố đầu tiên có suất chiếu
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                if (selectedDate == null || selectedDate.isEmpty()) {
+                    selectedDate = sdf.format(new java.util.Date());
+                }
+                if ((selectedCity == null || selectedCity.isEmpty()) && !cities.isEmpty()) {
+                    selectedCity = cities.get(0);
+                }
+
+                java.util.Date dateObj = null;
+                try { dateObj = sdf.parse(selectedDate); } catch (Exception e) {}
+
+                ArrayList<ShowtimeDTO> showtimes = new ArrayList<>();
+                if (dateObj != null && selectedCity != null) {
+                    showtimes = showtimeDAO.listByMovieDateCity(movieId, dateObj, selectedCity);
+                }
 
                 request.setAttribute("movie", movie);
                 request.setAttribute("showtimes", showtimes);
+                request.setAttribute("cities", cities);
+                request.setAttribute("selectedDate", selectedDate);
+                request.setAttribute("selectedCity", selectedCity);
                 url = "booking/select-showtime.jsp";
 
             } else if ("selectSeat".equals(action)) {

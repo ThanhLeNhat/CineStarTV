@@ -15,14 +15,14 @@
 <section class="csn-hero">
     <div class="csn-hero-overlay"></div>
     <div class="csn-hero-content container">
-        <p class="csn-hero-eyebrow"><i class="fas fa-film"></i> Rạp chiếu phim của người Việt Nam</p>
+        <p class="csn-hero-eyebrow"><i class="fas fa-film"></i> Rạp chiếu phim của Thành và Vỹ</p>
         <h1>Trải nghiệm điện ảnh<br><span class="text-danger">đỉnh cao</span></h1>
         <p class="csn-hero-sub">Đặt vé nhanh — Chọn ghế dễ — Thanh toán tiện</p>
         <div class="mt-4">
             <a href="${pageContext.request.contextPath}/MovieController" class="btn btn-danger btn-lg me-3">
                 <i class="fas fa-ticket-alt me-2"></i>Đặt vé ngay
             </a>
-            <a href="${pageContext.request.contextPath}/MainController?action=cinemaList" class="btn btn-outline-light btn-lg">
+            <a href="${pageContext.request.contextPath}/CinemaController" class="btn btn-outline-light btn-lg">
                 <i class="fas fa-map-marker-alt me-2"></i>Tìm rạp gần bạn
             </a>
         </div>

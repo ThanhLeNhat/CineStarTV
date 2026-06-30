@@ -17,10 +17,16 @@
         <div class="col-md-6">
             <form action="${pageContext.request.contextPath}/MovieController" method="get" class="d-flex gap-2">
                 <input type="hidden" name="action" value="searchMovie">
-                <input type="text" name="keyword" class="form-control bg-dark border-secondary text-light"
+                <input type="text" name="keyword" class="form-control"
                        placeholder="Tìm kiếm phim..."
                        value="${not empty keyword ? keyword : ''}">
-                <button type="submit" class="btn btn-danger px-4">
+                <select name="genreId" class="form-select" style="max-width:160px;">
+                    <option value="">Thể loại</option>
+                    <c:forEach var="g" items="${genres}">
+                        <option value="${g.genreId}" ${selectedGenreId == g.genreId.toString() ? 'selected' : ''}>${g.genreName}</option>
+                    </c:forEach>
+                </select>
+                <button type="submit" class="btn btn-danger px-3">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
