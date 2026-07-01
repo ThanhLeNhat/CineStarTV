@@ -47,6 +47,12 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
+        // VNPay callback không cần auth — VNPay redirect về từ trang thanh toán
+        String action = req.getParameter("action");
+        if ("vnpayReturn".equals(action)) {
+            return;
+        }
+
         HttpSession session = req.getSession(false);
 
         boolean loggedIn = session != null

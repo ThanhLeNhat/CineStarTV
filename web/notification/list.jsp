@@ -30,8 +30,7 @@
                          style="${n.read ? 'opacity:.7;' : ''}">
                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
                              style="width:42px;height:42px;background:rgba(229,9,20,.15);">
-                            <i class="bi ${n.icon} text-danger" style="font-size:1.1rem;"></i>
-                            <i class="fas ${n.type == 'BOOKING' ? 'fa-ticket-alt' : n.type == 'PAYMENT' ? 'fa-credit-card' : n.type == 'SYSTEM' ? 'fa-megaphone' : 'fa-info-circle'} text-danger"></i>
+                            <i class="fas ${n.type == 'BOOKING' ? 'fa-ticket-alt' : n.type == 'PAYMENT' ? 'fa-credit-card' : n.type == 'SYSTEM' ? 'fa-bullhorn' : 'fa-info-circle'} text-danger" style="font-size:1.1rem;"></i>
                         </div>
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">

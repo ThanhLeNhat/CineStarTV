@@ -67,9 +67,9 @@
                             <fmt:formatNumber value="${booking.finalAmount}" pattern="#,###"/>đ
                         </span>
                     </div>
-                    <a href="${pageContext.request.contextPath}/PaymentController?action=processPayment&bookingId=${booking.bookingId}"
+                    <a href="${pageContext.request.contextPath}/PaymentController?action=vnpayCheckout&bookingId=${booking.bookingId}"
                        class="btn btn-danger w-100 btn-lg">
-                        <i class="fas fa-credit-card me-2"></i>Thanh toán ngay
+                        <i class="fas fa-credit-card me-2"></i>Thanh toán qua VNPay
                     </a>
                     <div class="text-center mt-2">
                         <a href="${pageContext.request.contextPath}/BookingController?action=bookingHistory"

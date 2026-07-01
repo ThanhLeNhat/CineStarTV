@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% request.setAttribute("pageTitle", "Trang cá nhân"); %>
 <%@ include file="../common/header.jsp" %>
+<%@ include file="../common/navbar.jsp" %>
 
 <div class="container py-5">
     <div class="row justify-content-center">

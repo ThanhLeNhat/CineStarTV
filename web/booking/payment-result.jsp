@@ -58,9 +58,18 @@
                 </c:choose>
 
                 <div class="mt-4 d-flex gap-2 justify-content-center">
-                    <a href="${pageContext.request.contextPath}/BookingController?action=bookingHistory" class="btn btn-outline-secondary">
-                        <i class="fas fa-ticket-alt me-2"></i>Lịch sử vé
-                    </a>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <a href="${pageContext.request.contextPath}/BookingController?action=bookingHistory" class="btn btn-outline-secondary">
+                                <i class="fas fa-ticket-alt me-2"></i>Lịch sử vé
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/MainController?action=login" class="btn btn-outline-secondary">
+                                <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập để xem vé
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                     <a href="${pageContext.request.contextPath}/HomeController" class="btn btn-danger">
                         <i class="fas fa-home me-2"></i>Trang chủ
                     </a>

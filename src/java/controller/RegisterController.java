@@ -33,6 +33,7 @@ public class RegisterController extends HttpServlet {
                 user.setStatus("ACTIVE");
 
                 if (userDAO.add(user)) {
+                    utils.MailUtil.sendWelcome(email, user.getFullName());
                     request.setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
                     url = "auth/login.jsp";
                 } else {

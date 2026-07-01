@@ -114,7 +114,7 @@ img { max-width: 100%; }
     content: '';
     position: absolute;
     inset: 0;
-    background: url('../images/hero-bg.jpg') center/cover no-repeat;
+    background: radial-gradient(ellipse at 60% 50%, #3a0a0a 0%, #1a0000 40%, #0a0a0a 100%);
     opacity: .15;
 }
 .csn-hero-content { position: relative; z-index: 1; padding: 4rem 0; }

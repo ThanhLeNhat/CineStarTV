@@ -223,7 +223,8 @@ public class BookingController extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("error", "Lỗi: " + e.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            if (!response.isCommitted())
+                request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

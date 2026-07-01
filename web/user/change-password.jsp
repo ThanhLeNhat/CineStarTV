@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% request.setAttribute("pageTitle", "Đổi mật khẩu"); %>
 <%@ include file="../common/header.jsp" %>
+<%@ include file="../common/navbar.jsp" %>
 
 <div class="container py-5">
     <div class="row justify-content-center">

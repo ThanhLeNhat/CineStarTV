@@ -91,6 +91,124 @@ public class PaymentController extends HttpServlet {
                 }
                 url = "booking/payment-result.jsp";
 
+            } else if ("vnpayCheckout".equals(action)) {
+                // Tạo URL VNPay và redirect
+                int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+                BookingDAO bookingDAO = new BookingDAO();
+                BookingDTO booking = bookingDAO.searchByID(bookingId);
+
+                if (booking != null && booking.isPending()) {
+                    String orderInfo = "Thanh toan ve xem phim - " + booking.getBookingCode();
+                    String ipAddr = utils.VNPayUtil.getIpAddress(request);
+                    String payUrl = utils.VNPayUtil.buildPaymentUrl(
+                            bookingId, booking.getFinalAmount(), orderInfo, ipAddr);
+                    response.sendRedirect(payUrl);
+                    return;
+                } else {
+                    request.setAttribute("error", "Đơn đặt vé không hợp lệ.");
+                    url = "booking/payment-result.jsp";
+                }
+
+            } else if ("vnpayReturn".equals(action)) {
+                // VNPay callback sau thanh toán
+                String vnpResponseCode = request.getParameter("vnp_ResponseCode");
+                String vnpTxnRef       = request.getParameter("vnp_TxnRef");
+                boolean valid = utils.VNPayUtil.verifySignature(request.getParameterMap());
+
+                int bookingId = -1;
+                if (vnpTxnRef != null && vnpTxnRef.contains("-")) {
+                    try { bookingId = Integer.parseInt(vnpTxnRef.split("-")[0]); } catch (Exception ex) {}
+                }
+
+                BookingDAO bookingDAO = new BookingDAO();
+                PaymentDAO paymentDAO = new PaymentDAO();
+                BookingDTO booking = bookingId > 0 ? bookingDAO.searchByID(bookingId) : null;
+
+                if (valid && "00".equals(vnpResponseCode) && booking != null && booking.isPending()) {
+                    booking.setStatus("CONFIRMED");
+                    bookingDAO.update(booking);
+
+                    PaymentDTO payment = paymentDAO.searchByBookingId(bookingId);
+                    if (payment != null) {
+                        payment.setStatus("SUCCESS");
+                        payment.setPaymentMethod("VNPAY");
+                        payment.setTransactionId(request.getParameter("vnp_TransactionNo"));
+                        payment.setVnpayResponseCode("00");
+                        payment.setPaidAt(new Date());
+                        paymentDAO.update(payment);
+                    }
+
+                    if (currentUser != null) {
+                        NotificationDAO notifDAO = new NotificationDAO();
+                        notifDAO.add(new NotificationDTO(currentUser,
+                                "Thanh toán thành công!",
+                                "Đơn " + booking.getBookingCode() + " đã thanh toán thành công qua VNPay.",
+                                "PAYMENT"));
+                    }
+
+                    // Gửi email xác nhận SAU KHI thanh toán thành công
+                    try {
+                        String userEmail  = booking.getUser().getEmail();
+                        String userName   = booking.getUser().getFullName();
+                        String bCode      = booking.getBookingCode();
+                        String movieTitle = booking.getShowtime().getMovie().getTitle();
+                        java.text.SimpleDateFormat dateFmt = new java.text.SimpleDateFormat("dd/MM/yyyy");
+                        String showDateStr = dateFmt.format(booking.getShowtime().getShowDate());
+                        String showTimeStr = booking.getShowtime().getStartTime() + " — " + booking.getShowtime().getEndTime();
+                        String cinemaName  = booking.getShowtime().getScreen().getCinema().getCinemaName();
+                        String screenName  = booking.getShowtime().getScreen().getScreenName();
+
+                        BookingDetailDAO detailDAO = new BookingDetailDAO();
+                        java.util.ArrayList<BookingDetailDTO> details = detailDAO.listByBookingId(bookingId);
+                        StringBuilder seatLabels = new StringBuilder();
+                        for (BookingDetailDTO d : details) {
+                            if (seatLabels.length() > 0) seatLabels.append(", ");
+                            seatLabels.append(d.getSeatLabel());
+                        }
+
+                        java.text.NumberFormat nf = java.text.NumberFormat.getInstance(new java.util.Locale("vi", "VN"));
+                        String amountStr = nf.format(booking.getFinalAmount());
+
+                        utils.MailUtil.sendBookingConfirmation(userEmail, userName, bCode, movieTitle,
+                                showDateStr, showTimeStr, cinemaName, screenName, seatLabels.toString(), amountStr);
+                    } catch (Exception ex) {
+                        System.err.println("[PaymentController] Email error: " + ex.getMessage());
+                    }
+
+                    request.setAttribute("booking", booking);
+                    request.setAttribute("payment", paymentDAO.searchByBookingId(bookingId));
+                    request.setAttribute("success", true);
+                } else {
+                    PaymentDTO failedPayment = null;
+                    if (valid && booking != null && booking.isPending()) {
+                        // Chữ ký hợp lệ nhưng user hủy hoặc ngân hàng từ chối → cập nhật DB
+                        failedPayment = paymentDAO.searchByBookingId(bookingId);
+                        if (failedPayment != null) {
+                            failedPayment.setStatus("FAILED");
+                            failedPayment.setPaymentMethod("VNPAY");
+                            failedPayment.setVnpayResponseCode(vnpResponseCode != null ? vnpResponseCode : "99");
+                            paymentDAO.update(failedPayment);
+                        }
+                        // Hủy booking để giải phóng ghế
+                        booking.setStatus("CANCELLED");
+                        bookingDAO.update(booking);
+
+                        if (currentUser != null) {
+                            NotificationDAO notifDAO = new NotificationDAO();
+                            notifDAO.add(new NotificationDTO(currentUser,
+                                    "Thanh toán thất bại",
+                                    "Đơn " + booking.getBookingCode() + " đã bị hủy do thanh toán không thành công (mã: " + vnpResponseCode + ").",
+                                    "PAYMENT"));
+                        }
+                        request.setAttribute("payment", failedPayment);
+                    }
+                    // Nếu chữ ký không hợp lệ → không đụng DB, chỉ báo lỗi
+                    if (booking != null) request.setAttribute("booking", booking);
+                    request.setAttribute("success", false);
+                    request.setAttribute("error", "Thanh toán thất bại hoặc bị hủy (mã: " + vnpResponseCode + ")");
+                }
+                url = "booking/payment-result.jsp";
+
             } else if ("paymentResult".equals(action)) {
                 int bookingId = Integer.parseInt(request.getParameter("bookingId"));
                 BookingDAO bookingDAO = new BookingDAO();
@@ -107,7 +225,10 @@ public class PaymentController extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("error", "Lỗi: " + e.getMessage());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            // Không forward nếu response đã committed (ví dụ: sendRedirect trong vnpayCheckout)
+            if (!response.isCommitted()) {
+                request.getRequestDispatcher(url).forward(request, response);
+            }
         }
     }
 

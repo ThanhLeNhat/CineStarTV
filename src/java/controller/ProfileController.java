@@ -105,6 +105,7 @@ public class ProfileController extends HttpServlet {
                     user.setPassword(PasswordUtil.hashPassword(newPass));
                     userDAO.update(user);
                     session.setAttribute("user", user);
+                    utils.MailUtil.sendPasswordChanged(user.getEmail(), user.getFullName());
                     response.sendRedirect(request.getContextPath()
                             + "/ProfileController?msg=pwchanged");
                     return;
